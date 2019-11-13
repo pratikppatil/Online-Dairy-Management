@@ -68,7 +68,7 @@ movies.post("/",function(request,response)
 });
 movies.put("/movieid",function(request,response)
 {  
-    let movieid=request.body.movieid;
+    let movieid=request.parans.movieid;
     let moviename=request.body.moviename;
     let director =request.body.director;
     let rating =request.body.rating;
@@ -77,6 +77,30 @@ movies.put("/movieid",function(request,response)
 
 
     let query=`update  movies set moviename='${moviename}', director='${director}',rating='${rating}', budget='${budget}' where movieid='${movieid}'`;
+    connection.query(query,function(err,result)
+    {
+        console.log(query)
+        if (err==null)
+        {
+            Data=result;
+            response.contentType("application/json");
+            response.send(JSON.stringify(Data));
+        }
+        else
+        {
+          response.contentType("application/json");
+            response.send(err)
+        }
+    });
+    
+});
+movies.delet("/movieid",function(request,response)
+{  
+    let movieid=request.parans.movieid;
+    
+
+
+    let query=`delet from  movies where movieid='${movieid}'`;
     connection.query(query,function(err,result)
     {
         console.log(query)
